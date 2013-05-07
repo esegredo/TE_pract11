@@ -31,6 +31,11 @@ def getCPUTime(expr, A, B, n):
   # Finish time
   cpu_time = time.clock() - c0
   return cpu_time
+
+def efficiency(time1, time2):
+  if (time1 >= time2):
+    return (1 - (time2 / time1)) * 100
+  return (1 - (time1 / time2)) * 100
   
 if __name__ == '__main__':
   if (len(sys.argv) != 6):
@@ -41,7 +46,16 @@ if __name__ == '__main__':
     A = float(sys.argv[3])
     B = float(sys.argv[4])
     iterations = int(sys.argv[5])
-    print 'CPU time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr1, iterations, getCPUTime(expr1, A, B, iterations))
-    print 'Elapsed time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr1, iterations, getElapsedTime(expr1, A, B, iterations))
-    print 'CPU time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr2, iterations, getCPUTime(expr2, A, B, iterations))
-    print 'Elapsed time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr2, iterations, getElapsedTime(expr2, A, B, iterations))
+
+    cpu_expr1 = getCPUTime(expr1, A, B, iterations)
+    cpu_expr2 = getCPUTime(expr2, A, B, iterations)
+    elapsed_expr1 = getElapsedTime(expr1, A, B, iterations)
+    elapsed_expr2 = getElapsedTime(expr2, A, B, iterations)
+
+    print 'CPU time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr1, iterations, cpu_expr1)
+    print 'Elapsed time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr1, iterations, elapsed_expr1)
+    print 'CPU time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr2, iterations, cpu_expr2)
+    print 'Elapsed time invested in evaluating the expression {0} for {1} iterations: {2} seconds'.format(expr2, iterations, elapsed_expr2)
+
+    print 'Efficiency considering cpu times: {0}%'.format(efficiency(cpu_expr1, cpu_expr2))
+    print 'Efficiency considering elapsed times: {0}%'.format(efficiency(elapsed_expr1, elapsed_expr2))
